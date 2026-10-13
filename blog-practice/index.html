@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<style>
+  body {
+  background-color: blue;
+  }
+  
+  .kutu {
+  background-color:#ecf0f1;
+  border-radius:10px;
+  padding; 15px;
+  margin; 10px;
+  text-align: left;
+  }
+  
+  .madde {
+  text-align: center;
+  background-color: white;
+  border-radius:15px;
+  padding; 20px;
+  margin; 20px;
+  
+}
+
+.başlık-kutusu {
+  text-align: center;
+  padding: 20px; 
+  background-color: #2c3e50;
+  border-radius:10px; 
+  color: white;
+}
+.buton {
+  background-color: red;
+  color:white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border:none;
+  }
+</style>
+</head>
+<body>
+
+<div class="başlık-kutusu">
+
+
+  <h1 style="color:white;"> Merhaba!Ben Burak </h1>
+  <p style="color:white;">Bilgisayar Programcılığı Öğrencisi</p>
+  </div>
+</div>
+
+<div class="madde">
+       <h2> Hakkımda </h2>
+    <div class="kutu">
+        <ul style="list-style-type: none;">	     
+              
+                  <li>2006 yılında Ankara'da doğdum.</li>
+				  <li>Şu anda Ankara Üni. Nallıhan Myo'da okuyorum.</li>
+				  <li>Hayalim <mark>oyun yapmak</mark>.</li>
+        </ul>
+    </div>
+</div>
+<div class="madde">
+       <h2> Hobilerim </h2>
+    <div class="kutu">
+        <ul>	     
+              
+                  <li>Oyun oynamak.</li>
+				  <li>Kod yazmak.</li>
+				  <li>Spor yapmak.</li>
+				  <li>Ders çalışmak.</li>
+        </ul>
+    </div>
+</div>
+	
+	<div class="madde">
+       <h2> Öğrendiğim Teknolojiler </h2>
+    <div class="kutu">
+        <ul>	     
+              
+                  <li>CSS.</li>
+				  <li>C++.</li>
+				  <li>HTML.</li>
+				  
+        </ul>
+    </div>
+</div>
+
+<div class="madde">
+       <h2> Eğitim Bilgilerim</h2>
+    <table border="1" style="margin: auto; border-radius:5px;">
+	   <tbody>
+	    <tr style="background-color: gray; color; white;">
+		 <th style="padding 10px;">YIL</th>
+		 <th style="padding 10px;">OKUL</th>
+		 <th style="padding 10px;">Bölüm</th>
+		 </tr>
+		<tr>
+		  <td style="padding 10px">2016-2023</td>
+		  <td style="padding 10px">Anadolu Lisesi</td>
+		  <td style="padding 10px">Sayısal</td>
+		</tr>
+		<tr>
+		  <td style="padding 10px">2025-2027</td>
+		  <td style="padding 10px">Ankara Üni. Nallıhan Myo</td>
+		  <td style="padding 10px">Bilgisayar Programcılığı</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+	<div class="madde">
+    <h2> İletişim </h2>
+    <div class="kutu">
+        <ul>	     
+            <p>E-posta:<a href="mailto:solmazburakss@gmail.com">solmazburakss@gmail.com</a> </p>			                 				  				  				  
+        </ul>
+    </div>
+    
+    <p>Benimle iletişime geçmek ister misin?</p>
+    
+    <button class="buton" onclick="document.getElementById('mesaj-cevap').innerHTML='En kısa sürede döneceğim dostum.'">Mesaj Gönder</button>
+    
+    <p id="mesaj-cevap" style="margin-top: 15px; font-weight: bold; color: black;"></p>
+</div>
+
+</body>
+<footer>
+<p class="başlık-kutusu">@2025</p>
+</footer>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basit Navigasyon Çubuğu</title>
+    <style>
+        /* CSS kodları bir sonraki bölümde yer alacaktır */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Taşmayı engeller */
+            background-color: #333; /* Navigasyon çubuğu arka plan rengi */
+        }
+
+        .nav-item {
+            float: left; /* Öğeleri yatay olarak hizalar */
+        }
+
+        .nav-item a {
+            display: block; /* Bağlantının tüm alanı kaplamasını sağlar */
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none; /* Alt çizgiyi kaldırır */
+        }
+
+        /* Hover efekti: Fare üzerine gelince arka plan rengini değiştirir */
+        .nav-item a:hover {
+            background-color: #555;
+        }
+
+        /* Aktif sayfa (isteğe bağlı) */
+        .nav-item a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="navbar">
+        <li class="nav-item"><a class="active" href="#anasayfa">Anasayfa</a></li>
+        <li class="nav-item"><a href="#hakkimizda">Hakkımızda</a></li>
+        <li class="nav-item"><a href="#hizmetler">Hizmetler</a></li>
+        <li class="nav-item"><a href="#iletisim">İletişim</a></li>
+        </ul>
+
+    <div style="padding:20px;">
+        <h2>Navigasyon Çubuğu Örneği</h2>
+        <p>Bu, temel CSS ile oluşturulmuş basit bir yatay navigasyon çubuğudur.</p>
+    </div>
+
+</body>
+</html>
