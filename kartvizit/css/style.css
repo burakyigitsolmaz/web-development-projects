@@ -1,0 +1,559 @@
+/* ==== Tema ==== */
+:root {
+  --bg: #0b0b0d;
+  --bg-2: #131316;
+  --card-bg: #131316;
+  --accent: #c1121f;
+  --accent-2: #e63946;
+  --text: #f2f2f5;
+  --text-dim: #a8a8b3;
+  --font: "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background:
+    linear-gradient(rgba(193, 18, 31, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(193, 18, 31, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 50% 40%, #131316 0%, var(--bg) 70%);
+  background-size: 44px 44px, 44px 44px, 100% 100%;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ==== Görsel olarak gizli (yalnızca ekran okuyucuya açık) ==== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==== Sahne ==== */
+.scene {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Üstten süzülen kırmızı ışık: sabit katman, kartın arkasında kalır
+   (z-index: -1). prefers-reduced-motion'da pulse devre dışıdır. */
+.scene::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45vh;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(230, 57, 70, 0.35), rgba(193, 18, 31, 0.12) 45%, transparent 75%);
+  filter: blur(22px);
+  z-index: -1;
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+/* Üst kenara ince kırmızı parlama çizgisi */
+.scene::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(230, 57, 70, 0.7) 30%, rgba(230, 57, 70, 0.7) 70%, transparent);
+  z-index: -1;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==== Kart ==== */
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 92vw);
+  aspect-ratio: 85 / 55;
+  height: auto;
+  perspective: 1400px;
+  cursor: pointer;
+  outline: none;
+}
+
+.card:focus-visible {
+  border-radius: 18px;
+  box-shadow: 0 0 0 2px var(--accent-2), 0 0 26px rgba(230, 57, 70, 0.35);
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+/* Çevirmenin tek doğruluk kaynağı: JS'in yönettiği .is-flipped sınıfı
+   (yalnızca tıklama/Enter/Space). CSS'te :hover ile ayrı bir dönüş
+   kaynağı YOK — çakışma ve yapışkan mobil hover sorunlarını önler. */
+.card.is-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(160deg, #17171b 0%, var(--card-bg) 55%, #0f0f12 100%);
+  border: 1px solid rgba(193, 18, 31, 0.55);
+  border-radius: 18px;
+  box-shadow:
+    0 0 22px rgba(193, 18, 31, 0.18),
+    0 18px 48px rgba(0, 0, 0, 0.65);
+  padding: clamp(8px, 1.8vh, 18px) clamp(12px, 4vw, 26px) clamp(6px, 1.4vh, 12px);
+  overflow: hidden;
+}
+
+.face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% -8%, rgba(230, 57, 70, 0.14) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+.face-back {
+  transform: rotateY(180deg);
+}
+
+/* ==== Üst arma sırası ==== */
+.face-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.crest {
+  height: clamp(64px, 5.6rem, 84px);
+  width: auto;
+  max-width: clamp(140px, 26vw, 210px);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+.crest-sm {
+  height: clamp(64px, 5.6rem, 84px);
+  width: auto;
+  max-width: clamp(140px, 26vw, 210px);
+  object-fit: contain;
+}
+
+/* ==== Ön yüz ==== */
+.face-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 4px;
+  min-height: 0;
+}
+
+.name {
+  font-size: clamp(1.25rem, 4.6vh, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+.divider {
+  width: 64px;
+  height: 3px;
+  margin: clamp(6px, 1.3vh, 12px) auto;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.55);
+}
+
+.title {
+  font-size: clamp(0.7rem, 2.2vh, 0.85rem);
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.face-bottom {
+  text-align: center;
+}
+
+.school {
+  font-size: clamp(0.6rem, 1.9vh, 0.72rem);
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.meta {
+  font-size: clamp(0.56rem, 1.8vh, 0.68rem);
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+.hint {
+  margin-top: clamp(4px, 0.8vh, 8px);
+  font-size: clamp(0.5rem, 1.7vh, 0.58rem);
+  color: #8d8d99;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ==== Arka yüz ==== */
+.contact {
+  margin-top: clamp(3px, 0.8vh, 8px);
+  text-align: center;
+}
+
+.email {
+  display: inline-block;
+  font-size: clamp(0.68rem, 2.3vh, 0.8rem);
+  font-weight: 600;
+  color: var(--accent-2);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(230, 57, 70, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  word-break: break-all;
+}
+
+.email:hover,
+.email:focus-visible {
+  color: #ff6b74;
+  border-color: #ff6b74;
+}
+
+.contact .meta {
+  margin-top: clamp(3px, 0.7vh, 6px);
+}
+
+/* GitHub / Instagram hap butonları */
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: clamp(3px, 0.7vh, 6px);
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: clamp(22px, 3.2vh, 26px);
+  padding: 0 9px;
+  background: #0e0e10;
+  border: 1px solid var(--accent-2);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: clamp(0.6rem, 2vh, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social svg {
+  width: clamp(13px, 1.9vh, 15px);
+  height: clamp(13px, 1.9vh, 15px);
+  flex: none;
+}
+
+.social:hover,
+.social:focus-visible {
+  background: var(--accent-2);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.45);
+}
+
+/* Teknoloji tablosu: 2 sütun × 2 satır ızgara; sol sütunda Diller ve
+   Veritabanı, sağ sütunda Web ve Diğer (DOM sırası satır bazlı akar). */
+.tech-grid {
+  flex: 1;
+  margin-top: clamp(4px, 0.9vh, 9px);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 5px 10px;
+}
+
+.tech-group {
+  min-width: 0;
+  padding: 4px 9px;
+  background: rgba(230, 57, 70, 0.05);
+  border: 1px solid rgba(193, 18, 31, 0.28);
+  border-radius: 8px;
+}
+
+.tech-title {
+  margin-bottom: 3px;
+  font-size: clamp(0.54rem, 1.3vh, 0.62rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.tech-items ul {
+  list-style: none;
+}
+
+.tech-items li {
+  font-size: clamp(0.62rem, 1.55vh, 0.75rem);
+  line-height: 1.5;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.copyright {
+  font-size: clamp(0.5rem, 1.8vh, 0.55rem);
+  color: #8d8d99;
+}
+
+/* ==== Mobil ölçekleme ====
+   Kart yatay (85/55) olduğu için kısa kalan iç boşluklar yukarıda
+   clamp() ile küçültüldü; aşağıda yalnızca uç durumlar daraltılır. */
+@media (max-width: 440px) {
+  body {
+    overflow: auto;
+  }
+
+  .scene {
+    min-height: 100%;
+    align-items: center;
+  }
+
+  .crest {
+    height: clamp(40px, 11vw, 54px);
+    max-width: 32vw;
+  }
+
+  .crest-sm {
+    height: clamp(40px, 11vw, 54px);
+    max-width: 32vw;
+  }
+
+  .name {
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+  }
+
+  .divider {
+    width: 52px;
+    margin: 4px auto;
+  }
+
+  .title {
+    font-size: 0.72rem;
+  }
+
+  .school {
+    font-size: 0.62rem;
+  }
+
+  .meta {
+    font-size: 0.58rem;
+  }
+
+  .hint {
+    margin-top: 3px;
+    font-size: 0.5rem;
+  }
+
+  .email {
+    font-size: 0.68rem;
+  }
+
+  .socials {
+    margin-top: 3px;
+    gap: 5px;
+  }
+
+  .social {
+    height: 21px;
+    padding: 0 7px;
+    font-size: 0.58rem;
+  }
+
+  .social svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .contact .meta {
+    margin-top: 3px;
+  }
+
+  .tech-grid {
+    margin-top: 4px;
+    gap: 4px 8px;
+  }
+
+  .tech-group {
+    padding: 3px 7px;
+  }
+
+  .tech-title {
+    margin-bottom: 2px;
+    font-size: 0.54rem;
+  }
+
+  .tech-items li {
+    font-size: 0.62rem;
+    line-height: 1.45;
+  }
+
+  .copyright {
+    font-size: 0.5rem;
+  }
+}
+
+/* ==== Kısa ekranlar: yatay kart alçak olduğu için taşma riskine karşı
+   iç boşlukları ve tipografiyi ekstra daralt, içerik kesilmesin ==== */
+@media (max-height: 620px) {
+  .face {
+    padding: 6px 14px 5px;
+  }
+
+  .crest {
+    height: clamp(48px, 9vh, 68px);
+  }
+
+  .crest-sm {
+    height: clamp(48px, 9vh, 68px);
+  }
+
+  .name {
+    font-size: clamp(1.1rem, 4vh, 1.6rem);
+  }
+
+  .divider {
+    margin: 4px auto;
+  }
+
+  .title {
+    font-size: 0.75rem;
+  }
+
+  .school {
+    font-size: 0.65rem;
+  }
+
+  .meta {
+    font-size: 0.6rem;
+  }
+
+  .hint {
+    margin-top: 3px;
+    font-size: 0.5rem;
+  }
+
+  .contact {
+    margin-top: 3px;
+  }
+
+  .email {
+    font-size: 0.72rem;
+  }
+
+  .socials {
+    margin-top: 3px;
+    gap: 5px;
+  }
+
+  .social {
+    height: 21px;
+    padding: 0 7px;
+    font-size: 0.58rem;
+  }
+
+  .social svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .contact .meta {
+    margin-top: 2px;
+  }
+
+  .tech-grid {
+    margin-top: 4px;
+    gap: 4px 8px;
+  }
+
+  .tech-group {
+    padding: 3px 7px;
+  }
+
+  .tech-title {
+    margin-bottom: 2px;
+    font-size: 0.54rem;
+  }
+
+  .tech-items li {
+    font-size: 0.62rem;
+    line-height: 1.45;
+  }
+
+  .copyright {
+    font-size: 0.5rem;
+  }
+}
+
+/* ==== Hareket azaltma ==== */
+@media (prefers-reduced-motion: reduce) {
+  .card-inner {
+    transition-duration: 0.001s;
+  }
+
+  .email {
+    transition: none;
+  }
+
+  .social {
+    transition: none;
+  }
+
+  .scene::before {
+    animation: none;
+  }
+}
