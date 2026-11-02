@@ -41,6 +41,7 @@
         : "Kart ön yüzü gösteriyor";
     }
 
+
     // Görünen yüz kullanılabilir, gizlenen yüz inert olmalı.
     setFaceUsable(backFace, state);
     setFaceUsable(frontFace, !state);
@@ -81,4 +82,74 @@
       toggleFlip();
     }
   });
+})();
+
+// ==== Tema ====
+(function () {
+  "use strict";
+
+  var KEY = "theme";
+  var COLORS = { dark: "#0b0b0d", light: "#f1eeec" };
+  var root = document.documentElement;
+  var btn = document.querySelector("#themeBtn");
+  var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
+
+  function readStored() {
+    try {
+      var v = localStorage.getItem(KEY);
+      return v === "light" || v === "dark" ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function store(v) {
+    try {
+      localStorage.setItem(KEY, v);
+    } catch (e) {}
+  }
+
+  function systemTheme() {
+    return mq && mq.matches ? "light" : "dark";
+  }
+
+  // Temayı uygular: data-theme + tarayıcı çubuğu rengi + düğme etiketi.
+  function apply(theme) {
+    root.setAttribute("data-theme", theme);
+
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for (var i = 0; i < metas.length; i++) {
+      metas[i].setAttribute("content", COLORS[theme]);
+    }
+
+    if (btn) {
+      var label = theme === "dark" ? "Açık temaya geç" : "Koyu temaya geç";
+      btn.setAttribute("aria-label", label);
+      btn.setAttribute("title", label);
+    }
+  }
+
+  apply(readStored() || systemTheme());
+
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      store(next);
+      apply(next);
+    });
+  }
+
+  // Elle seçim yapılmadıysa sistem temasındaki değişikliği takip et.
+  if (mq) {
+    var onSystemChange = function () {
+      if (!readStored()) {
+        apply(systemTheme());
+      }
+    };
+    if (mq.addEventListener) {
+      mq.addEventListener("change", onSystemChange);
+    } else if (mq.addListener) {
+      mq.addListener(onSystemChange);
+    }
+  }
 })();

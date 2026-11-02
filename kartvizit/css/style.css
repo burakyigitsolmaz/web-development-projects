@@ -1,13 +1,88 @@
-/* ==== Tema ==== */
+/* ==== Tema ====
+   Varsayılan koyu. Tema düğmesi <html data-theme="light|dark"> ayarlar
+   (seçim localStorage'da saklanır); seçim yoksa sistem teması izlenir. */
 :root {
+  color-scheme: dark;
   --bg: #0b0b0d;
   --bg-2: #131316;
+  --bg-spot: #131316;
+  --grid-line: rgba(193, 18, 31, 0.03);
   --card-bg: #131316;
+  --card-grad-top: #17171b;
+  --card-grad-bottom: #0f0f12;
+  --card-border: rgba(193, 18, 31, 0.55);
+  --card-shadow: 0 0 22px rgba(193, 18, 31, 0.18), 0 18px 48px rgba(0, 0, 0, 0.65);
+  --card-sheen: rgba(230, 57, 70, 0.14);
   --accent: #c1121f;
   --accent-2: #e63946;
+  --accent-text: #e63946;
+  --accent-text-hover: #ff6b74;
+  --accent-solid-hover: #e63946;
+  --glow-top: rgba(230, 57, 70, 0.35);
+  --glow-mid: rgba(193, 18, 31, 0.12);
   --text: #f2f2f5;
   --text-dim: #a8a8b3;
+  --text-faint: #8d8d99;
+  --pill-bg: #0e0e10;
+  --crest-shadow: rgba(0, 0, 0, 0.5);
+  --tech-bg: rgba(230, 57, 70, 0.05);
+  --tech-border: rgba(193, 18, 31, 0.28);
   --font: "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f1eeec;
+  --bg-2: #ffffff;
+  --bg-spot: #ffffff;
+  --grid-line: rgba(193, 18, 31, 0.055);
+  --card-bg: #ffffff;
+  --card-grad-top: #ffffff;
+  --card-grad-bottom: #f4f1ef;
+  --card-border: rgba(193, 18, 31, 0.5);
+  --card-shadow: 0 0 20px rgba(193, 18, 31, 0.1), 0 16px 40px rgba(60, 30, 30, 0.2);
+  --card-sheen: rgba(230, 57, 70, 0.07);
+  --accent-text: #b10f1c;
+  --accent-text-hover: #8a0b15;
+  --accent-solid-hover: #c1121f;
+  --glow-top: rgba(230, 57, 70, 0.22);
+  --glow-mid: rgba(193, 18, 31, 0.07);
+  --text: #17171b;
+  --text-dim: #54545f;
+  --text-faint: #6a6a76;
+  --pill-bg: #ffffff;
+  --crest-shadow: rgba(0, 0, 0, 0.18);
+  --tech-bg: rgba(193, 18, 31, 0.04);
+  --tech-border: rgba(193, 18, 31, 0.22);
+}
+
+/* JS çalışmazsa veya seçim yoksa sistem temasını izle */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #f1eeec;
+    --bg-2: #ffffff;
+    --bg-spot: #ffffff;
+    --grid-line: rgba(193, 18, 31, 0.055);
+    --card-bg: #ffffff;
+    --card-grad-top: #ffffff;
+    --card-grad-bottom: #f4f1ef;
+    --card-border: rgba(193, 18, 31, 0.5);
+    --card-shadow: 0 0 20px rgba(193, 18, 31, 0.1), 0 16px 40px rgba(60, 30, 30, 0.2);
+    --card-sheen: rgba(230, 57, 70, 0.07);
+    --accent-text: #b10f1c;
+    --accent-text-hover: #8a0b15;
+    --accent-solid-hover: #c1121f;
+    --glow-top: rgba(230, 57, 70, 0.22);
+    --glow-mid: rgba(193, 18, 31, 0.07);
+    --text: #17171b;
+    --text-dim: #54545f;
+    --text-faint: #6a6a76;
+    --pill-bg: #ffffff;
+    --crest-shadow: rgba(0, 0, 0, 0.18);
+    --tech-bg: rgba(193, 18, 31, 0.04);
+    --tech-border: rgba(193, 18, 31, 0.22);
+  }
 }
 
 * {
@@ -23,9 +98,9 @@ html, body {
 body {
   font-family: var(--font);
   background:
-    linear-gradient(rgba(193, 18, 31, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(193, 18, 31, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 50% 40%, #131316 0%, var(--bg) 70%);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    radial-gradient(circle at 50% 40%, var(--bg-spot) 0%, var(--bg) 70%);
   background-size: 44px 44px, 44px 44px, 100% 100%;
   color: var(--text);
   display: flex;
@@ -67,7 +142,7 @@ body {
   right: 0;
   height: 45vh;
   pointer-events: none;
-  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(230, 57, 70, 0.35), rgba(193, 18, 31, 0.12) 45%, transparent 75%);
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, var(--glow-top), var(--glow-mid) 45%, transparent 75%);
   filter: blur(22px);
   z-index: -1;
   animation: glow-pulse 6s ease-in-out infinite;
@@ -113,6 +188,56 @@ body {
   box-shadow: 0 0 0 2px var(--accent-2), 0 0 26px rgba(230, 57, 70, 0.35);
 }
 
+/* ==== Tema düğmesi ==== */
+.theme-btn {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--accent-2);
+  background: var(--pill-bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-btn:hover,
+.theme-btn:focus-visible {
+  background: var(--accent-solid-hover);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(230, 57, 70, 0.45);
+}
+
+.theme-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-2), 0 0 18px rgba(230, 57, 70, 0.5);
+}
+
+.theme-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Koyuda güneş (açığa geç), açıkta ay (koyuya geç) */
+.theme-btn .icon-moon {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-btn .icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-btn .icon-moon {
+  display: block;
+}
+
 .card-inner {
   position: relative;
   width: 100%;
@@ -135,12 +260,10 @@ body {
   -webkit-backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(160deg, #17171b 0%, var(--card-bg) 55%, #0f0f12 100%);
-  border: 1px solid rgba(193, 18, 31, 0.55);
+  background: linear-gradient(160deg, var(--card-grad-top) 0%, var(--card-bg) 55%, var(--card-grad-bottom) 100%);
+  border: 1px solid var(--card-border);
   border-radius: 18px;
-  box-shadow:
-    0 0 22px rgba(193, 18, 31, 0.18),
-    0 18px 48px rgba(0, 0, 0, 0.65);
+  box-shadow: var(--card-shadow);
   padding: clamp(8px, 1.8vh, 18px) clamp(12px, 4vw, 26px) clamp(6px, 1.4vh, 12px);
   overflow: hidden;
 }
@@ -149,7 +272,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% -8%, rgba(230, 57, 70, 0.14) 0%, transparent 42%);
+  background: radial-gradient(circle at 50% -8%, var(--card-sheen) 0%, transparent 42%);
   pointer-events: none;
 }
 
@@ -169,7 +292,7 @@ body {
   width: auto;
   max-width: clamp(140px, 26vw, 210px);
   object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 6px var(--crest-shadow));
 }
 
 .crest-sm {
@@ -232,7 +355,7 @@ body {
 .hint {
   margin-top: clamp(4px, 0.8vh, 8px);
   font-size: clamp(0.5rem, 1.7vh, 0.58rem);
-  color: #8d8d99;
+  color: var(--text-faint);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -247,7 +370,7 @@ body {
   display: inline-block;
   font-size: clamp(0.68rem, 2.3vh, 0.8rem);
   font-weight: 600;
-  color: var(--accent-2);
+  color: var(--accent-text);
   text-decoration: none;
   border-bottom: 1px solid rgba(230, 57, 70, 0.4);
   padding-bottom: 2px;
@@ -257,8 +380,8 @@ body {
 
 .email:hover,
 .email:focus-visible {
-  color: #ff6b74;
-  border-color: #ff6b74;
+  color: var(--accent-text-hover);
+  border-color: var(--accent-text-hover);
 }
 
 .contact .meta {
@@ -280,7 +403,7 @@ body {
   gap: 5px;
   height: clamp(22px, 3.2vh, 26px);
   padding: 0 9px;
-  background: #0e0e10;
+  background: var(--pill-bg);
   border: 1px solid var(--accent-2);
   border-radius: 999px;
   color: var(--text);
@@ -300,7 +423,7 @@ body {
 
 .social:hover,
 .social:focus-visible {
-  background: var(--accent-2);
+  background: var(--accent-solid-hover);
   color: #ffffff;
   box-shadow: 0 0 10px rgba(230, 57, 70, 0.45);
 }
@@ -320,8 +443,8 @@ body {
 .tech-group {
   min-width: 0;
   padding: 4px 9px;
-  background: rgba(230, 57, 70, 0.05);
-  border: 1px solid rgba(193, 18, 31, 0.28);
+  background: var(--tech-bg);
+  border: 1px solid var(--tech-border);
   border-radius: 8px;
 }
 
@@ -331,7 +454,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-2);
+  color: var(--accent-text);
 }
 
 .tech-items ul {
@@ -347,13 +470,18 @@ body {
 
 .copyright {
   font-size: clamp(0.5rem, 1.8vh, 0.55rem);
-  color: #8d8d99;
+  color: var(--text-faint);
 }
 
 /* ==== Mobil ölçekleme ====
    Kart yatay (85/55) olduğu için kısa kalan iç boşluklar yukarıda
    clamp() ile küçültüldü; aşağıda yalnızca uç durumlar daraltılır. */
 @media (max-width: 440px) {
+  .theme-btn {
+    width: 36px;
+    height: 36px;
+  }
+
   body {
     overflow: auto;
   }
@@ -550,6 +678,10 @@ body {
   }
 
   .social {
+    transition: none;
+  }
+
+  .theme-btn {
     transition: none;
   }
 
