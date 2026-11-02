@@ -3,7 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eeec" media="(prefers-color-scheme: light)">
   <title>Burak Yiğit Solmaz – Dijital Kartvizit</title>
+  <script>
+    // Boyamadan önce kayıtlı/sistem temasını uygula (yanıp sönmeyi önler)
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light" && t !== "dark") {
+          t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -104,6 +119,13 @@
 
       </div>
     </div>
+
+
+    <!-- Tema düğmesi -->
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Açık temaya geç" title="Açık temaya geç">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
 
     <!-- Çevirme durumunu ekran okuyucuya duyuran görsel olarak gizli bölge -->
     <p class="sr-only" role="status" aria-live="polite" id="flipStatus">Kart ön yüzü gösteriyor</p>
